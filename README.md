@@ -1,16 +1,35 @@
 # movie_app
+**API Reference**
+This project uses the KKPhim API for streaming movies. Refer to the API documentation for details on available endpoints and usage.
 
-A new Flutter project.
+## SETUP pubspec packages used:
+0. **environment, dependencies, dev:**
+    ```sh
+    environment:
+    sdk: '>=3.4.0 <4.0.0'
 
-## Getting Started
+    dependencies:
+    flutter:
+        sdk: flutter
+    cupertino_icons: ^1.0.6
+    http: ^1.2.1
+    webview_flutter: ^4.7.0
+    video_player: ^2.2.14
+    chewie: ^1.1.2
+    flutter_html: ^3.0.0-beta.2
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+    dev_dependencies:
+    flutter_test:
+        sdk: flutter
+    flutter_lints: ^3.0.0
+    ```
+1. **Type flutter:**
+   ```sh
+   flutter clean
+   ```
+   ```sh
+   flutter pub get / flutter upgrade
+   ```
+   ```sh
+   flutter run
+   ```
