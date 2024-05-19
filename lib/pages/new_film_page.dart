@@ -3,26 +3,17 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:movie_app/pages/movie_detail_page.dart';
 
-class NewFilmPage extends StatelessWidget {
+class NewFilmPage extends StatefulWidget {
+  final VoidCallback toggleTheme;
+  final bool isDarkMode;
+
+  NewFilmPage({required this.toggleTheme, required this.isDarkMode});
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Phim Mới Cập Nhật',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MovieListPage(),
-    );
-  }
+  _NewFilmPageState createState() => _NewFilmPageState();
 }
 
-class MovieListPage extends StatefulWidget {
-  @override
-  _MovieListPageState createState() => _MovieListPageState();
-}
-
-class _MovieListPageState extends State<MovieListPage> {
+class _NewFilmPageState extends State<NewFilmPage> {
   List<dynamic> movies = [];
   int currentPage = 1;
   bool isLoading = false;
@@ -86,6 +77,11 @@ class _MovieListPageState extends State<MovieListPage> {
           IconButton(
             icon: Icon(isGridView ? Icons.view_list : Icons.grid_view),
             onPressed: _toggleView,
+          ),
+          IconButton(
+            icon: Icon(
+                widget.isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
+            onPressed: widget.toggleTheme,
           ),
         ],
       ),

@@ -162,32 +162,33 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          if (!_isFullScreen)
-            // IconButton(
-            //   onPressed: () {
-            //     setState(() {
-            //       if (_controller.value.isPlaying) {
-            //         _controller.pause();
-            //       } else {
-            //         _controller.play();
-            //       }
-            //       _isPlaying = !_controller.value.isPlaying;
-            //     });
-            //   },
-            //   icon: Icon(
-            //     _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-            //   ),
-            //   color: Colors.black,
-            // ),
-            if (!_isFullScreen) SizedBox(width: 10),
-          IconButton(
-              onPressed: _toggleFullScreen,
-              icon: Icon(
-                _isFullScreen ? Icons.fullscreen_exit : Icons.fullscreen,
-                color: _isFullScreen ? null : Colors.black,
-              ),
-              color:
-                  _isFullScreen ? Colors.white : Colors.white.withOpacity(0.7)),
+          // IconButton(
+          //   onPressed: () {
+          //     setState(() {
+          //       if (_controller.value.isPlaying) {
+          //         _controller.pause();
+          //       } else {
+          //         _controller.play();
+          //       }
+          //       _isPlaying = !_controller.value.isPlaying;
+          //     });
+          //   },
+          //   icon: Icon(
+          //     _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+          //   ),
+          //   color: Colors.black,
+          // ),
+          // if (!_isFullScreen) SizedBox(width: 10),
+          if (!_isFullScreen || _isPlaying)
+            IconButton(
+                onPressed: _toggleFullScreen,
+                icon: Icon(
+                  _isFullScreen ? Icons.fullscreen_exit : Icons.fullscreen,
+                  color: _isFullScreen ? null : Colors.black,
+                ),
+                color: _isFullScreen
+                    ? Colors.white
+                    : Colors.white.withOpacity(0.7)),
         ],
       ),
     );
