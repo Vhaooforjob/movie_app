@@ -181,14 +181,18 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
           // if (!_isFullScreen) SizedBox(width: 10),
           if (!_isFullScreen || _isPlaying)
             IconButton(
-                onPressed: _toggleFullScreen,
-                icon: Icon(
-                  _isFullScreen ? Icons.fullscreen_exit : Icons.fullscreen,
-                  color: _isFullScreen ? null : Colors.black,
-                ),
+              onPressed: _toggleFullScreen,
+              icon: Icon(
+                _isFullScreen ? Icons.fullscreen_exit : Icons.fullscreen,
                 color: _isFullScreen
-                    ? Colors.white
-                    : Colors.white.withOpacity(0.7)),
+                    ? null
+                    : (Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black),
+              ),
+              color:
+                  _isFullScreen ? Colors.white : Colors.white.withOpacity(0.7),
+            )
         ],
       ),
     );
