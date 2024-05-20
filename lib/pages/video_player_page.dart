@@ -160,13 +160,16 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                               ),
                             if (!_isFullScreen && _isPlaying)
                               Positioned(
-                                top: 100,
-                                child: IconButton(
-                                  icon: Icon(
-                                    _isPlaying ? Icons.pause : Icons.play_arrow,
-                                    color: Colors.white,
+                                child: Center(
+                                  child: IconButton(
+                                    icon: Icon(
+                                      _isPlaying
+                                          ? Icons.pause
+                                          : Icons.play_arrow,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: _togglePlayPause,
                                   ),
-                                  onPressed: _togglePlayPause,
                                 ),
                               )
                           ],
