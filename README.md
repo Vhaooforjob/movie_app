@@ -35,7 +35,10 @@ This project uses the KKPhim API for streaming movies. Refer to the API document
    ```
 
 **Screenshoot APP**
+## Film & Detail page:
 ![film_page](images/image-3.png)
 ![detail_page](images/image-2.png)
+
+## Play page:
 ![play_page](images/image.png)
 ![play_page_fullScreen](images/image-1.png)
