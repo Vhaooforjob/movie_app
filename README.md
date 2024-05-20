@@ -33,3 +33,9 @@ This project uses the KKPhim API for streaming movies. Refer to the API document
    ```sh
    flutter run
    ```
+
+**Screenshoot APP**
+![film_page](image-3.png)
+![detail_page](image-2.png)
+![play_page](image.png)
+![play_page_fullScreen](image-1.png)
