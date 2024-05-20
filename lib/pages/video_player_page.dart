@@ -23,6 +23,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   bool _isFullScreen = false;
   bool _hasError = false;
   bool _isPlaying = false;
+  bool _isMuted = false;
 
   @override
   void initState() {
@@ -38,6 +39,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     );
     try {
       await _controller.initialize();
+      setState(() {});
       // // Thiết lập thời gian phát video về 1:00
       // await _controller.seekTo(const Duration(seconds: 60));
       // setState(() {});
@@ -79,6 +81,24 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     final currentPosition = _controller.value.position;
     final newPosition = currentPosition + const Duration(seconds: 15);
     _controller.seekTo(newPosition);
+  }
+
+  void _toggleMute() {
+    setState(() {
+      _isMuted = !_isMuted;
+      _controller.setVolume(_isMuted ? 0 : 1);
+    });
+  }
+
+  void _togglePlayPause() {
+    setState(() {
+      if (_controller.value.isPlaying) {
+        _controller.pause();
+      } else {
+        _controller.play();
+      }
+      _isPlaying = !_controller.value.isPlaying;
+    });
   }
 
   @override
@@ -138,6 +158,17 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                                   ),
                                 ],
                               ),
+                            if (!_isFullScreen && _isPlaying)
+                              Positioned(
+                                top: 100,
+                                child: IconButton(
+                                  icon: Icon(
+                                    _isPlaying ? Icons.pause : Icons.play_arrow,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: _togglePlayPause,
+                                ),
+                              )
                           ],
                         ),
                       ),
@@ -162,22 +193,22 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          // IconButton(
-          //   onPressed: () {
-          //     setState(() {
-          //       if (_controller.value.isPlaying) {
-          //         _controller.pause();
-          //       } else {
-          //         _controller.play();
-          //       }
-          //       _isPlaying = !_controller.value.isPlaying;
-          //     });
-          //   },
-          //   icon: Icon(
-          //     _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+          // if (!_isFullScreen)
+          //   IconButton(
+          //     icon: Icon(
+          //       _isPlaying ? Icons.pause : Icons.play_arrow,
+          //       color: Colors.white,
+          //     ),
+          //     onPressed: _togglePlayPause,
           //   ),
-          //   color: Colors.black,
-          // ),
+          if (!_isFullScreen || _isPlaying)
+            IconButton(
+              icon: Icon(
+                _isMuted ? Icons.volume_off : Icons.volume_up,
+                color: Colors.white,
+              ),
+              onPressed: _toggleMute,
+            ),
           // if (!_isFullScreen) SizedBox(width: 10),
           if (!_isFullScreen || _isPlaying)
             IconButton(
