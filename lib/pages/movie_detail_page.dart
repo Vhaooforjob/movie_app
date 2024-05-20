@@ -102,16 +102,15 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                               ),
                               child: InkWell(
                                 onTap: () {
-                                  // Handle episode tap if needed
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => VideoPlayerPage(
                                         url: episode['link_m3u8'],
-                                        episodeName: episode[
-                                            'name'], // Pass the episode name
-                                        episodeFilename: episode[
-                                            'filename'], // Pass the episode filename
+                                        episodeName: episode['name'],
+                                        episodeFilename: episode['filename'],
+                                        episodes: movieDetails!['episodes'][0]
+                                            ['server_data'],
                                       ),
                                     ),
                                   );

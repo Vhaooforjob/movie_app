@@ -6,11 +6,13 @@ class VideoPlayerPage extends StatefulWidget {
   final String url;
   final String episodeName;
   final String episodeFilename;
+  final List<dynamic> episodes;
 
   VideoPlayerPage({
     required this.url,
     required this.episodeName,
     required this.episodeFilename,
+    required this.episodes,
   });
 
   @override
@@ -101,8 +103,92 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     });
   }
 
+  void _showEpisodesList() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Danh sách tập phim'),
+          content: Container(
+            width: double.maxFinite,
+            height: 400,
+            child: ListView.builder(
+              itemCount: widget.episodes.length,
+              itemBuilder: (context, index) {
+                final episode = widget.episodes[index];
+                return ListTile(
+                  title: Text(episode['name']),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => VideoPlayerPage(
+                          url: episode['link_m3u8'],
+                          episodeName: episode['name'],
+                          episodeFilename: episode['filename'],
+                          episodes: widget.episodes,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('Đóng'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _playPreviousEpisode() {
+    final currentIndex = widget.episodes
+        .indexWhere((episode) => episode['link_m3u8'] == widget.url);
+    if (currentIndex > 0) {
+      final previousEpisode = widget.episodes[currentIndex - 1];
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => VideoPlayerPage(
+            url: previousEpisode['link_m3u8'],
+            episodeName: previousEpisode['name'],
+            episodeFilename: previousEpisode['filename'],
+            episodes: widget.episodes,
+          ),
+        ),
+      );
+    }
+  }
+
+  void _playNextEpisode() {
+    final currentIndex = widget.episodes
+        .indexWhere((episode) => episode['link_m3u8'] == widget.url);
+    if (currentIndex != -1 && currentIndex < widget.episodes.length - 1) {
+      final nextEpisode = widget.episodes[currentIndex + 1];
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => VideoPlayerPage(
+            url: nextEpisode['link_m3u8'],
+            episodeName: nextEpisode['name'],
+            episodeFilename: nextEpisode['filename'],
+            episodes: widget.episodes,
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final currentIndex = widget.episodes
+        .indexWhere((episode) => episode['link_m3u8'] == widget.url);
     return Scaffold(
       appBar: _isFullScreen ? null : AppBar(title: Text('Xem Phim')),
       body: Container(
@@ -195,7 +281,67 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          if (currentIndex > 0 && (!_isFullScreen || _isPlaying))
+            TextButton.icon(
+              icon: Icon(
+                Icons.skip_previous,
+                color: _isFullScreen
+                    ? Colors.white
+                    : (Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black),
+              ),
+              label: Text(
+                'Tập trước',
+                style: TextStyle(
+                  color: _isFullScreen
+                      ? Colors.white
+                      : (Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black),
+                ),
+              ),
+              onPressed: _playPreviousEpisode,
+            ),
+          if (currentIndex < widget.episodes.length - 1 &&
+              (!_isFullScreen || _isPlaying))
+            TextButton.icon(
+              icon: Icon(
+                Icons.skip_next,
+                color: _isFullScreen
+                    ? Colors.white
+                    : (Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black),
+              ),
+              label: Text(
+                'Tập tiếp theo',
+                style: TextStyle(
+                  color: _isFullScreen
+                      ? Colors.white
+                      : (Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black),
+                ),
+              ),
+              onPressed: _playNextEpisode,
+            ),
+          if (!_isFullScreen || _isPlaying)
+            IconButton(
+              icon: Icon(
+                Icons.playlist_play,
+                color: _isFullScreen
+                    ? null
+                    : (Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black),
+              ),
+              color:
+                  _isFullScreen ? Colors.white : Colors.white.withOpacity(0.7),
+              onPressed: _showEpisodesList,
+            ),
           // if (!_isFullScreen)
           //   IconButton(
           //     icon: Icon(
@@ -208,8 +354,14 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
             IconButton(
               icon: Icon(
                 _isMuted ? Icons.volume_off : Icons.volume_up,
-                color: Colors.white,
+                color: _isFullScreen
+                    ? null
+                    : (Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black),
               ),
+              color:
+                  _isFullScreen ? Colors.white : Colors.white.withOpacity(0.7),
               onPressed: _toggleMute,
             ),
           // if (!_isFullScreen) SizedBox(width: 10),
@@ -226,7 +378,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
               ),
               color:
                   _isFullScreen ? Colors.white : Colors.white.withOpacity(0.7),
-            )
+            ),
         ],
       ),
     );
@@ -253,6 +405,7 @@ void main() {
       url: 'https://www.example.com/video.mp4',
       episodeName: 'Episode 1',
       episodeFilename: 'episode1.mp4',
+      episodes: [],
     ),
   ));
 }
