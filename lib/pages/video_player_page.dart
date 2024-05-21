@@ -300,24 +300,6 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                     ValueListenableBuilder<double>(
                       valueListenable: _sliderValue,
                       builder: (context, value, child) {
-                        return Slider(
-                          value: value,
-                          min: 0.0,
-                          max: _controller.value.duration.inSeconds.toDouble(),
-                          onChanged: (newValue) {
-                            _controller
-                                .seekTo(Duration(seconds: newValue.toInt()));
-                            _sliderValue.value = newValue;
-                          },
-                          activeColor: Colors.white,
-                          inactiveColor: Colors.white70,
-                          thumbColor: Colors.white,
-                        );
-                      },
-                    ),
-                    ValueListenableBuilder<double>(
-                      valueListenable: _sliderValue,
-                      builder: (context, value, child) {
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -330,6 +312,24 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                               style: TextStyle(color: Colors.white),
                             ),
                           ],
+                        );
+                      },
+                    ),
+                    ValueListenableBuilder<double>(
+                      valueListenable: _sliderValue,
+                      builder: (context, value, child) {
+                        return Slider(
+                          value: value,
+                          min: 0.0,
+                          max: _controller.value.duration.inSeconds.toDouble(),
+                          onChanged: (newValue) {
+                            _controller
+                                .seekTo(Duration(seconds: newValue.toInt()));
+                            _sliderValue.value = newValue;
+                          },
+                          activeColor: Colors.white,
+                          inactiveColor: Colors.white70,
+                          thumbColor: Colors.white,
                         );
                       },
                     ),

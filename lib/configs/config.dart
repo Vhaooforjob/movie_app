@@ -13,6 +13,7 @@ class configApi {
       'https://phimapi.com/v1/api/danh-sach/tv-shows';
   static const String APIcategory = 'https://phimapi.com/the-loai';
   static const String APIcountry = 'https://phimapi.com/quoc-gia';
+  // static const String APISearch = 'https://phimapi.com/v1/api/tim-kiem';
 }
 
 Future<Map<String, dynamic>> fetchAPI(String apiUrl) async {
