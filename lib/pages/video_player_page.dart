@@ -26,6 +26,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   bool _hasError = false;
   bool _isPlaying = false;
   bool _isMuted = false;
+  ValueNotifier<double> _sliderValue = ValueNotifier(0.0);
 
   @override
   void initState() {
@@ -42,6 +43,9 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     try {
       await _controller.initialize();
       setState(() {});
+      _controller.addListener(() {
+        _sliderValue.value = _controller.value.position.inSeconds.toDouble();
+      });
       // // Thiết lập thời gian phát video về 1:00
       // await _controller.seekTo(const Duration(seconds: 60));
       // setState(() {});
@@ -51,6 +55,16 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       });
       print('Video initialization error: $error');
     }
+  }
+
+  String _formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    final hours = duration.inHours;
+    final minutes = duration.inMinutes.remainder(60);
+    final seconds = duration.inSeconds.remainder(60);
+    return hours > 0
+        ? '${twoDigits(hours)}:${twoDigits(minutes)}:${twoDigits(seconds)}'
+        : '${twoDigits(minutes)}:${twoDigits(seconds)}';
   }
 
   void _toggleFullScreen() {
@@ -274,6 +288,52 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                 child: Text(
                   'Phim đang xem: ${widget.episodeFilename}',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+            if (_isFullScreen && _isPlaying)
+              Positioned(
+                bottom: 40,
+                left: 40,
+                right: 40,
+                child: Column(
+                  children: [
+                    ValueListenableBuilder<double>(
+                      valueListenable: _sliderValue,
+                      builder: (context, value, child) {
+                        return Slider(
+                          value: value,
+                          min: 0.0,
+                          max: _controller.value.duration.inSeconds.toDouble(),
+                          onChanged: (newValue) {
+                            _controller
+                                .seekTo(Duration(seconds: newValue.toInt()));
+                            _sliderValue.value = newValue;
+                          },
+                          activeColor: Colors.white,
+                          inactiveColor: Colors.white70,
+                          thumbColor: Colors.white,
+                        );
+                      },
+                    ),
+                    ValueListenableBuilder<double>(
+                      valueListenable: _sliderValue,
+                      builder: (context, value, child) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              _formatDuration(Duration(seconds: value.toInt())),
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Text(
+                              _formatDuration(_controller.value.duration),
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
           ],
