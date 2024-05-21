@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class configApi {
+  static const String APIImageFilm = 'https://img.phimapi.com/';
   static const String APIfeatureFilm =
       'https://phimapi.com/v1/api/danh-sach/phim-le';
   static const String APItelevisionSeries =

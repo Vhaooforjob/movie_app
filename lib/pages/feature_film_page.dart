@@ -63,7 +63,7 @@ class _FeatureFilmPageState extends State<FeatureFilmPage> {
                   title: Text(movies[index]['name']),
                   subtitle: Text(movies[index]['origin_name']),
                   leading: Image.network(
-                    configApi.APIfeatureFilm + movies[index]['poster_url'],
+                    configApi.APIImageFilm + movies[index]['poster_url'],
                     width: 100,
                     height: 150,
                     fit: BoxFit.cover,
