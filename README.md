@@ -6,8 +6,7 @@ This project uses the KKPhim API for streaming movies. Refer to the API document
 0. **environment, dependencies, dev:**
     ```sh
     environment:
-  sdk: '>=3.4.0 <4.0.0'
-
+    sdk: '>=3.4.0 <4.0.0'
     dependencies:
     flutter:
         sdk: flutter
