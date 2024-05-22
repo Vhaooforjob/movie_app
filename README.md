@@ -6,7 +6,7 @@ This project uses the KKPhim API for streaming movies. Refer to the API document
 0. **environment, dependencies, dev:**
     ```sh
     environment:
-    sdk: '>=3.4.0 <4.0.0'
+  sdk: '>=3.4.0 <4.0.0'
 
     dependencies:
     flutter:
@@ -17,12 +17,20 @@ This project uses the KKPhim API for streaming movies. Refer to the API document
     video_player: ^2.2.14
     chewie: ^1.1.2
     flutter_html: ^3.0.0-beta.2
+    salomon_bottom_bar: ^3.3.2
 
     dev_dependencies:
     flutter_test:
         sdk: flutter
     flutter_lints: ^3.0.0
+
+    flutter:
+    uses-material-design: true
     ```
+    ```sh
+    flutter pub add salomon_bottom_bar
+    ```
+
 1. **Type flutter:**
    ```sh
    flutter clean
@@ -35,10 +43,10 @@ This project uses the KKPhim API for streaming movies. Refer to the API document
    ```
 
 ## Screenshoot APP
-**Film & Detail page:**
+### Film & Detail page:
 ![film_page](images/image-3.png)
 ![detail_page](images/image-2.png)
 
-**Play page:**
+### Play page:
 ![play_page](images/image.png)
 ![play_page_fullScreen](images/image-1.png)
