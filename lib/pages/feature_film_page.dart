@@ -47,11 +47,11 @@ class _FeatureFilmPageState extends State<FeatureFilmPage> {
       appBar: AppBar(
         title: Text('Phim Lẻ'),
         actions: [
-          IconButton(
-            icon: Icon(
-                widget.isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
-            onPressed: widget.toggleTheme,
-          ),
+          // IconButton(
+          //   icon: Icon(
+          //       widget.isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
+          //   onPressed: widget.toggleTheme,
+          // ),
         ],
       ),
       body: isLoading

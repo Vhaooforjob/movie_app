@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/pages/dashboard_page.dart';
 import 'package:movie_app/pages/feature_film_page.dart';
 import 'package:movie_app/pages/new_film_page.dart';
+import 'package:movie_app/pages/profile_page.dart';
 import 'package:movie_app/pages/search_page.dart';
 import 'package:movie_app/pages/series_film_page.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
@@ -30,18 +32,18 @@ class _MyAppState extends State<MyApp> {
       HomePage(
           toggleTheme: _toggleTheme,
           isDarkMode: _isDarkMode), //bottom bar - page 1
-      FeatureFilmPage(
-          toggleTheme: _toggleTheme,
-          isDarkMode: _isDarkMode), //bottom bar - page 2
-      SeriesFilmPage(
-          toggleTheme: _toggleTheme,
-          isDarkMode: _isDarkMode), //bottom bar - page 3
-      SearchBarApp(
-          toggleTheme: _toggleTheme,
-          isDarkMode: _isDarkMode), //bottom bar - page 4
+      // FeatureFilmPage(
+      //     toggleTheme: _toggleTheme,
+      //     isDarkMode: _isDarkMode), //bottom bar - page
       NewFilmPage(
           toggleTheme: _toggleTheme,
-          isDarkMode: _isDarkMode), //bottom bar - page 5
+          isDarkMode: _isDarkMode), //bottom bar - page 2
+      DashboardPage(
+          toggleTheme: _toggleTheme,
+          isDarkMode: _isDarkMode), //bottom bar - page 3
+      ProfilePage(
+          toggleTheme: _toggleTheme,
+          isDarkMode: _isDarkMode), //bottom bar - page 4
     ];
     return MaterialApp(
       title: 'Phim Mới Cập Nhật',
@@ -80,28 +82,28 @@ class _MyAppState extends State<MyApp> {
               title: Text("Trang chủ"),
               selectedColor: Colors.purple,
             ),
-            SalomonBottomBarItem(
-              icon: Icon(Icons.movie_creation_sharp),
-              title: Text("Phim lẻ"),
-              selectedColor: Colors.pink,
-            ),
+            // SalomonBottomBarItem(
+            //   icon: Icon(Icons.movie_creation_sharp),
+            //   title: Text("Phim lẻ"),
+            //   selectedColor: Colors.pink,
+            // ),
             SalomonBottomBarItem(
               icon: Icon(Icons.movie_creation_outlined),
-              title: Text("Phim bộ"),
+              title: Text("Phim mới cập nhật"),
               selectedColor: Colors.pink,
             ),
 
             /// Search
             SalomonBottomBarItem(
-              icon: Icon(Icons.search),
-              title: Text("Search"),
+              icon: Icon(Icons.dashboard_outlined),
+              title: Text("Danh mục"),
               selectedColor: Colors.orange,
             ),
 
             /// Profile
             SalomonBottomBarItem(
               icon: Icon(Icons.person),
-              title: Text("Profile"),
+              title: Text("Tài khoản"),
               selectedColor: Colors.teal,
             ),
           ],
@@ -129,6 +131,18 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  void pushProfile(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProfilePage(
+          toggleTheme: toggleTheme,
+          isDarkMode: isDarkMode,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -140,9 +154,22 @@ class HomePage extends StatelessWidget {
             onPressed: () => pushSearch(context),
           ),
           // IconButton(
-          //   icon: Icon(isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
-          //   onPressed: toggleTheme,
-          // ),
+          //     icon: const Icon(Icons.person),
+          //     onPressed: () {
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //           builder: (context) => ProfilePage(
+          //             toggleTheme: toggleTheme,
+          //             isDarkMode: isDarkMode,
+          //           ),
+          //         ),
+          //       );
+          //     }),
+          IconButton(
+            icon: Icon(isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
+            onPressed: toggleTheme,
+          ),
         ],
       ),
       body: Center(

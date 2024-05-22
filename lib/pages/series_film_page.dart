@@ -47,11 +47,11 @@ class _SeriesFilmPageState extends State<SeriesFilmPage> {
       appBar: AppBar(
         title: Text('Phim Bộ'),
         actions: [
-          IconButton(
-            icon: Icon(
-                widget.isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
-            onPressed: widget.toggleTheme,
-          ),
+          // IconButton(
+          //   icon: Icon(
+          //       widget.isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
+          //   onPressed: widget.toggleTheme,
+          // ),
         ],
       ),
       body: isLoading

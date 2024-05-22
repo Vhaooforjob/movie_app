@@ -78,11 +78,11 @@ class _NewFilmPageState extends State<NewFilmPage> {
             icon: Icon(isGridView ? Icons.view_list : Icons.grid_view),
             onPressed: _toggleView,
           ),
-          IconButton(
-            icon: Icon(
-                widget.isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
-            onPressed: widget.toggleTheme,
-          ),
+          // IconButton(
+          //   icon: Icon(
+          //       widget.isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
+          //   onPressed: widget.toggleTheme,
+          // ),
         ],
       ),
       body: isGridView ? _buildGridView() : _buildListView(),

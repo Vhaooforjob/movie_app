@@ -61,6 +61,12 @@ class _SearchBarAppState extends State<SearchBarApp> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Tìm Kiếm'),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
