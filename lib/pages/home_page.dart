@@ -117,6 +117,18 @@ class HomePage extends StatelessWidget {
 
   HomePage({required this.toggleTheme, required this.isDarkMode});
 
+  void pushSearch(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SearchBarApp(
+          toggleTheme: toggleTheme,
+          isDarkMode: isDarkMode,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,9 +136,13 @@ class HomePage extends StatelessWidget {
         title: Text('Trang Chủ'),
         actions: [
           IconButton(
-            icon: Icon(isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
-            onPressed: toggleTheme,
+            icon: const Icon(Icons.search),
+            onPressed: () => pushSearch(context),
           ),
+          // IconButton(
+          //   icon: Icon(isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
+          //   onPressed: toggleTheme,
+          // ),
         ],
       ),
       body: Center(
