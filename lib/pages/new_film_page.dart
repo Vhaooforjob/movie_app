@@ -125,8 +125,8 @@ class _NewFilmPageState extends State<NewFilmPage> {
   Widget _buildGridView() {
     return GridView.builder(
       controller: _scrollController,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2, // Number of columns
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3, // Number of columns
         mainAxisSpacing: 5, // Vertical spacing between items
         crossAxisSpacing: 5, // Horizontal spacing between items
         childAspectRatio: 0.7, // Aspect ratio for each item

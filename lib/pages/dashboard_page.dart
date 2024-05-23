@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/pages/cartoon_page.dart';
 import 'package:movie_app/pages/feature_film_page.dart';
 import 'package:movie_app/pages/series_film_page.dart';
 import 'package:movie_app/pages/search_page.dart';
+import 'package:movie_app/pages/tvshows_page.dart';
 
 class DashboardPage extends StatelessWidget {
   final VoidCallback toggleTheme;
@@ -60,6 +62,38 @@ class DashboardPage extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => SeriesFilmPage(
+                    toggleTheme: toggleTheme,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              );
+            },
+          ),
+          _buildCategoryButton(
+            context,
+            Icons.movie_creation_outlined,
+            'Phim TV',
+            () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TVShowPage(
+                    toggleTheme: toggleTheme,
+                    isDarkMode: isDarkMode,
+                  ),
+                ),
+              );
+            },
+          ),
+          _buildCategoryButton(
+            context,
+            Icons.movie_creation_outlined,
+            'Phim Hoạt hình',
+            () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CartoonPage(
                     toggleTheme: toggleTheme,
                     isDarkMode: isDarkMode,
                   ),
