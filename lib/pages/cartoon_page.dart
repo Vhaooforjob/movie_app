@@ -16,11 +16,26 @@ class CartoonPage extends StatefulWidget {
 class _CartoonPageState extends State<CartoonPage> {
   List<dynamic> movies = [];
   bool isLoading = false;
+  bool isLoadingMore = false;
+  int currentPage = 1;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     fetchMovies();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        fetchMoreMovies();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   Future<void> fetchMovies() async {
@@ -29,7 +44,7 @@ class _CartoonPageState extends State<CartoonPage> {
     });
     try {
       final Map<String, dynamic> responseData =
-          await fetchAPI(configApi.APIcartoon);
+          await fetchAPI(configApi.APIcartoon, page: currentPage);
       setState(() {
         movies = responseData['data']['items'];
         isLoading = false;
@@ -37,6 +52,27 @@ class _CartoonPageState extends State<CartoonPage> {
     } catch (error) {
       setState(() {
         isLoading = false;
+      });
+      print('Error: $error');
+    }
+  }
+
+  Future<void> fetchMoreMovies() async {
+    if (isLoadingMore) return;
+    setState(() {
+      isLoadingMore = true;
+    });
+    try {
+      currentPage++;
+      final Map<String, dynamic> responseData =
+          await fetchAPI(configApi.APIcartoon, page: currentPage);
+      setState(() {
+        movies.addAll(responseData['data']['items']);
+        isLoadingMore = false;
+      });
+    } catch (error) {
+      setState(() {
+        isLoadingMore = false;
       });
       print('Error: $error');
     }
@@ -57,30 +93,47 @@ class _CartoonPageState extends State<CartoonPage> {
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: movies.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text(movies[index]['name']),
-                  subtitle: Text(movies[index]['origin_name']),
-                  leading: Image.network(
-                    configApi.APIImageFilm + movies[index]['poster_url'],
-                    width: 100,
-                    height: 150,
-                    fit: BoxFit.cover,
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            MovieDetailPage(movieSlug: movies[index]['slug']),
-                      ),
-                    );
+          : movies.isEmpty
+              ? Center(child: Text('Không tìm thấy phim nào'))
+              : NotificationListener<ScrollNotification>(
+                  onNotification: (ScrollNotification scrollInfo) {
+                    if (!isLoadingMore &&
+                        scrollInfo.metrics.pixels ==
+                            scrollInfo.metrics.maxScrollExtent) {
+                      fetchMoreMovies();
+                      return true;
+                    }
+                    return false;
                   },
-                );
-              },
-            ),
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    itemCount: movies.length + (isLoadingMore ? 1 : 0),
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index == movies.length) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      return ListTile(
+                        title: Text(movies[index]['name']),
+                        subtitle: Text(movies[index]['origin_name']),
+                        leading: Image.network(
+                          configApi.APIImageFilm + movies[index]['poster_url'],
+                          width: 100,
+                          height: 150,
+                          fit: BoxFit.cover,
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MovieDetailPage(
+                                  movieSlug: movies[index]['slug']),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
     );
   }
 }
