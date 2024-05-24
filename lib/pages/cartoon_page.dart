@@ -46,7 +46,7 @@ class _CartoonPageState extends State<CartoonPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Phim TV'),
+        title: Text('Phim Hoạt hình'),
         actions: [
           // IconButton(
           //   icon: Icon(

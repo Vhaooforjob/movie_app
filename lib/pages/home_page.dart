@@ -1,11 +1,16 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:movie_app/configs/config.dart';
 import 'package:movie_app/pages/dashboard_page.dart';
 import 'package:movie_app/pages/feature_film_page.dart';
 import 'package:movie_app/pages/new_film_page.dart';
 import 'package:movie_app/pages/profile_page.dart';
 import 'package:movie_app/pages/search_page.dart';
 import 'package:movie_app/pages/series_film_page.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:movie_app/pages/movie_detail_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -113,35 +118,63 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   final VoidCallback toggleTheme;
   final bool isDarkMode;
 
   HomePage({required this.toggleTheme, required this.isDarkMode});
 
-  void pushSearch(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SearchBarApp(
-          toggleTheme: toggleTheme,
-          isDarkMode: isDarkMode,
-        ),
-      ),
-    );
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late List<dynamic> _movies = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchMovies();
   }
 
-  void pushProfile(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ProfilePage(
-          toggleTheme: toggleTheme,
-          isDarkMode: isDarkMode,
-        ),
-      ),
-    );
+  Future<void> _fetchMovies() async {
+    try {
+      final response = await http.get(Uri.parse(configApi.APINewFilm));
+      if (response.statusCode == 200) {
+        setState(() {
+          _movies = json.decode(response.body)['items'];
+        });
+      } else {
+        throw Exception('Failed to load movies');
+      }
+    } catch (error) {
+      print('Error: $error');
+    }
   }
+
+  // void pushSearch(BuildContext context) {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => SearchBarApp(
+  //         toggleTheme: toggleTheme,
+  //         isDarkMode: isDarkMode,
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  // void pushProfile(BuildContext context) {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => ProfilePage(
+  //         toggleTheme: toggleTheme,
+  //         isDarkMode: isDarkMode,
+  //       ),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -151,39 +184,110 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () => pushSearch(context),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SearchBarApp(
+                  toggleTheme: widget.toggleTheme,
+                  isDarkMode: widget.isDarkMode,
+                ),
+              ),
+            ),
           ),
-          // IconButton(
-          //     icon: const Icon(Icons.person),
-          //     onPressed: () {
-          //       Navigator.push(
-          //         context,
-          //         MaterialPageRoute(
-          //           builder: (context) => ProfilePage(
-          //             toggleTheme: toggleTheme,
-          //             isDarkMode: isDarkMode,
-          //           ),
-          //         ),
-          //       );
-          //     }),
           IconButton(
-            icon: Icon(isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
-            onPressed: toggleTheme,
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProfilePage(
+                    toggleTheme: widget.toggleTheme,
+                    isDarkMode: widget.isDarkMode,
+                  ),
+                ),
+              );
+            },
           ),
+
+          // IconButton(
+          //   icon: Icon(isDarkMode ? Icons.wb_sunny : Icons.nightlight_round),
+          //   onPressed: toggleTheme,
+          // ),
         ],
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            CarouselSlider.builder(
+              itemCount: _movies.length,
+              itemBuilder: (BuildContext context, int index, int realIndex) {
+                final movie = _movies[index];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MovieDetailPage(
+                          movieSlug: movie['slug'],
+                        ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    child: Stack(
+                      children: [
+                        Image.network(
+                          movie['poster_url'],
+                          width: 400,
+                          height: 500,
+                          fit: BoxFit.cover,
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            color: Colors.black54,
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              movie['name'],
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+              options: CarouselOptions(
+                aspectRatio: 16 / 9,
+                viewportFraction: 0.8,
+                initialPage: 0,
+                enableInfiniteScroll: true,
+                reverse: false,
+                autoPlay: true,
+                autoPlayInterval: Duration(seconds: 3),
+                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                autoPlayCurve: Curves.fastOutSlowIn,
+                enlargeCenterPage: true,
+                scrollDirection: Axis.horizontal,
+              ),
+            ),
             GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => NewFilmPage(
-                      toggleTheme: toggleTheme,
-                      isDarkMode: isDarkMode,
+                      toggleTheme: widget.toggleTheme,
+                      isDarkMode: widget.isDarkMode,
                     ),
                   ),
                 );
