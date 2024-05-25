@@ -43,6 +43,10 @@ This project uses the KKPhim API for streaming movies. Refer to the API document
    ```
 
 ## Screenshoot APP
+### Home & Search page:
+![home_page](images/image-4.png)
+![search_page](images/image-5.png)
+
 ### Film & Detail page:
 ![film_page](images/image-3.png)
 ![detail_page](images/image-2.png)
