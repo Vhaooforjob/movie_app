@@ -1,6 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+final url = 'http://10.21.41.165:3301/';
+final registration = url + "registration";
+final login = url + 'login';
+final addtodo = url + 'createToDo';
+final getToDoList = url + 'getUserTodoList';
+final deleteTodo = url + 'deleteTodo';
+
 class configApi {
   static const String APIImageFilm = 'https://img.phimapi.com/';
   static const String APINewFilm =

@@ -36,7 +36,8 @@ class _MyAppState extends State<MyApp> {
     final List<Widget> _pages = [
       HomePage(
           toggleTheme: _toggleTheme,
-          isDarkMode: _isDarkMode), //bottom bar - page 1
+          isDarkMode: _isDarkMode,
+          token: ''), //bottom bar - page 1
       // FeatureFilmPage(
       //     toggleTheme: _toggleTheme,
       //     isDarkMode: _isDarkMode), //bottom bar - page
@@ -122,7 +123,8 @@ class HomePage extends StatefulWidget {
   final VoidCallback toggleTheme;
   final bool isDarkMode;
 
-  HomePage({required this.toggleTheme, required this.isDarkMode});
+  HomePage(
+      {required this.toggleTheme, required this.isDarkMode, required token});
 
   @override
   _HomePageState createState() => _HomePageState();

@@ -18,6 +18,9 @@ This project uses the KKPhim API for streaming movies. Refer to the API document
     flutter_html: ^3.0.0-beta.2
     salomon_bottom_bar: ^3.3.2
     carousel_slider: ^4.2.1
+    jwt_decoder: ^2.0.1
+    velocity_x: ^4.1.2
+    shared_preferences: ^2.0.6
 
     dev_dependencies:
     flutter_test:
