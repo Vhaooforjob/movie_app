@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: subosito/flutter-action@v2
+      - uses: vhaooforjob/flutter-action@v2
         with:
           channel: 'stable'
           architecture: x64
