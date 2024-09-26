@@ -18,7 +18,7 @@ dependencies:
   chewie: ^1.1.2
   flutter_html: ^3.0.0-beta.2
   salomon_bottom_bar: ^3.3.2
-  carousel_slider: ^4.2.1
+  carousel_slider: ^5.0.0
   jwt_decoder: ^2.0.1
   velocity_x: ^4.1.2
   shared_preferences: ^2.0.6
