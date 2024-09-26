@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carousel_slider;
 import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:http/http.dart' as http;
@@ -256,7 +256,7 @@ class _HomePageState extends State<HomePage> {
         ),
         body: SingleChildScrollView(
             child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-          CarouselSlider.builder(
+          carousel_slider.CarouselSlider.builder(
             itemCount: _movies.length,
             itemBuilder: (BuildContext context, int index, int realIndex) {
               final movie = _movies[index];
@@ -303,7 +303,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             },
-            options: CarouselOptions(
+            options: carousel_slider.CarouselOptions(
               aspectRatio: 16 / 9,
               viewportFraction: 0.8,
               initialPage: 0,
